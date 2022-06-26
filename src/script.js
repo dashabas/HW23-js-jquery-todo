@@ -1,6 +1,6 @@
 class TodoList {
-    constructor(el) {
-        this.el = el;
+    constructor($el) {
+        this.$el = $el;
         this.todos = [];
     }
 
@@ -28,7 +28,7 @@ class TodoList {
             let status = !element.status ? 'in-progress' : 'done';
             list += `<li class="${status}" data-id="${element.id}">${element.task}<button class="change-status">Change status</button><button class="delete-task">Delete</button></li>`;
         }
-        this.el.html(list);
+        this.$el.html(list);
     }
 
     addTodo(todo) {
