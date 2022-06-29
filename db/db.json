@@ -2,18 +2,13 @@
   "todos": [
     {
       "task": "buy milk",
-      "status": true,
+      "status": false,
       "id": 1
     },
     {
       "task": "buy bread",
-      "status": false,
-      "id": 2
-    },
-    {
-      "task": "buy water",
       "status": true,
-      "id": 7
+      "id": 2
     },
     {
       "task": "buy flowers",
@@ -22,8 +17,13 @@
     },
     {
       "task": "buy sugar",
-      "status": false,
+      "status": true,
       "id": 9
+    },
+    {
+      "task": "buy water",
+      "status": false,
+      "id": 10
     }
   ]
 }

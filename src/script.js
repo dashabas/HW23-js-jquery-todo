@@ -2,6 +2,16 @@ class TodoList {
     constructor($el) {
         this.$el = $el;
         this.todos = [];
+
+        this.$el.on('click', '.change-status', (event) => {
+            let $item = $(event.target);
+            this.changeStatus($item.closest('li').data('id'));
+        })
+
+        this.$el.on('click', '.delete-task', (event) => {
+            let $item = $(event.target);
+            this.removeTodo($item.closest('li').data('id'));
+        })
     }
 
     getTodos() {
@@ -25,7 +35,7 @@ class TodoList {
             if (!element) {
                 return;
             }
-            let status = !element.status ? 'in-progress' : 'done';
+            let status = !element.status ? '' : 'done';
             list += `<li class="${status}" data-id="${element.id}">${element.task}<button class="change-status">Change status</button><button class="delete-task">Delete</button></li>`;
         }
         this.$el.html(list);
@@ -45,7 +55,8 @@ class TodoList {
         })
             .done((todo) => {
                 this.todos.push(todo);
-                this.renderTodos(this.todos);
+                let newTodo = `<li class="${todo.status ? 'done' : ''}" data-id="${todo.id}">${todo.task}<button class="change-status">Change status</button><button class="delete-task">Delete</button></li>`;
+                this.$el.append(newTodo);
             })
             .fail((error) => {
                 console.warn(error);
@@ -67,7 +78,7 @@ class TodoList {
             }
         })
             .done(() => {
-                this.renderTodos(this.todos);
+                $(`[data-id="${id}"]`).toggleClass('done');
             })
             .fail((error) => {
                 console.warn(error);
@@ -84,7 +95,7 @@ class TodoList {
             }
         })
             .done(() => {
-                this.renderTodos(this.todos);
+                $(`[data-id="${id}"]`).remove();
             })
             .fail((error) => {
                 console.warn(error);
@@ -103,13 +114,3 @@ $addTodoBtn.on('click', () => {
     todoOne.addTodo($todoInput.val());
     $todoInput.val('');
 });
-
-$listTodos.on('click', '.change-status', (event) => {
-    let $item = $(event.target);
-    todoOne.changeStatus($item.closest('li').data('id'));
-})
-
-$listTodos.on('click', '.delete-task', (event) => {
-    let $item = $(event.target);
-    todoOne.removeTodo($item.closest('li').data('id'));
-})
