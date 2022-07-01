@@ -29,14 +29,17 @@ class TodoList {
             })
     }
 
+    createTodoItem(todo) {
+         return `<li class="${todo.status ? 'done' : ''}" data-id="${todo.id}">${todo.task}<button class="change-status">Change status</button><button class="delete-task">Delete</button></li>`;
+    }
+
     renderTodos(todos = []) {
         let list = '';
         for (let element of todos) {
             if (!element) {
                 return;
             }
-            let status = !element.status ? '' : 'done';
-            list += `<li class="${status}" data-id="${element.id}">${element.task}<button class="change-status">Change status</button><button class="delete-task">Delete</button></li>`;
+            list += this.createTodoItem(element);
         }
         this.$el.html(list);
     }
@@ -55,7 +58,7 @@ class TodoList {
         })
             .done((todo) => {
                 this.todos.push(todo);
-                let newTodo = `<li class="${todo.status ? 'done' : ''}" data-id="${todo.id}">${todo.task}<button class="change-status">Change status</button><button class="delete-task">Delete</button></li>`;
+                let newTodo = this.createTodoItem(todo);
                 this.$el.append(newTodo);
             })
             .fail((error) => {
